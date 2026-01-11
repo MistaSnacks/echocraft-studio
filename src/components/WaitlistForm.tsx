@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, Lock, CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { submitToWaitlist } from "@/lib/api";
+import { config } from "@/lib/config";
 
 const WaitlistForm = () => {
   const [phone, setPhone] = useState<string>();
@@ -28,12 +30,21 @@ const WaitlistForm = () => {
 
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
+    const result = await submitToWaitlist({
+      phone,
+      smsConsent: agreed,
+      consentTimestamp: new Date().toISOString(),
+      source: "landing_page",
+    });
+
     setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success("You're on the list! We'll text you soon.");
+
+    if (result.success) {
+      setIsSubmitted(true);
+      toast.success("You're on the list! We'll text you soon.");
+    } else {
+      toast.error(result.error || "Something went wrong. Please try again.");
+    }
   };
 
   if (isSubmitted) {
@@ -55,7 +66,7 @@ const WaitlistForm = () => {
           You're on the list!
         </h3>
         <p className="text-muted-foreground text-sm">
-          We'll text you when Echomaps launches. Get ready to connect! 🎉
+          We'll text you when {config.sms.appName} launches. Get ready to connect! 🎉
         </p>
       </motion.div>
     );
@@ -94,8 +105,7 @@ const WaitlistForm = () => {
           className="mt-0.5 border-muted-foreground data-[state=checked]:bg-echo-yellow data-[state=checked]:border-echo-yellow"
         />
         <span className="text-xs text-muted-foreground leading-relaxed group-hover:text-foreground/70 transition-colors">
-          I agree to receive SMS messages from Echomaps about updates, launches, and promotions. 
-          Message & data rates may apply. Reply STOP to unsubscribe.
+          {config.sms.consentText}
         </span>
       </label>
 
@@ -118,7 +128,7 @@ const WaitlistForm = () => {
       {/* Privacy note */}
       <p className="flex items-center justify-center gap-2 mt-4 text-xs text-muted-foreground">
         <Lock className="w-3 h-3" />
-        Your number is safe with us. We only text about Echomaps.
+        {config.sms.privacyNote}
       </p>
     </motion.form>
   );
