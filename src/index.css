@@ -4,10 +4,10 @@
 
 @layer base {
   :root {
-    /* Echomaps Brand - Vibrant Yellow */
-    --echo-yellow: 52 100% 50%;
-    --echo-yellow-glow: 52 100% 60%;
-    --echo-yellow-dark: 52 100% 40%;
+    /* Echomaps Brand - Vibrant Yellow #f5ff00 */
+    --echo-yellow: 64 100% 50%;
+    --echo-yellow-glow: 64 100% 60%;
+    --echo-yellow-dark: 64 100% 40%;
     
     /* Dark Theme - Sleek & Modern */
     --background: 220 25% 6%;
@@ -20,7 +20,7 @@
     --popover: 220 20% 10%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 52 100% 50%;
+    --primary: 64 100% 50%;
     --primary-foreground: 220 25% 6%;
 
     --secondary: 220 15% 15%;
@@ -29,7 +29,7 @@
     --muted: 220 15% 18%;
     --muted-foreground: 220 10% 60%;
 
-    --accent: 52 100% 50%;
+    --accent: 64 100% 50%;
     --accent-foreground: 220 25% 6%;
 
     --destructive: 0 84.2% 60.2%;
@@ -37,14 +37,14 @@
 
     --border: 220 15% 20%;
     --input: 220 15% 15%;
-    --ring: 52 100% 50%;
+    --ring: 64 100% 50%;
 
     --radius: 1rem;
 
     /* Custom gradients & effects */
-    --gradient-hero: linear-gradient(135deg, hsl(52 100% 50%) 0%, hsl(45 100% 55%) 100%);
-    --gradient-glow: radial-gradient(circle at center, hsl(52 100% 50% / 0.3) 0%, transparent 70%);
-    --shadow-yellow: 0 0 60px hsl(52 100% 50% / 0.4);
+    --gradient-hero: linear-gradient(135deg, hsl(64 100% 50%) 0%, hsl(60 100% 55%) 100%);
+    --gradient-glow: radial-gradient(circle at center, hsl(64 100% 50% / 0.3) 0%, transparent 70%);
+    --shadow-yellow: 0 0 60px hsl(64 100% 50% / 0.4);
     --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
   }
 
@@ -108,10 +108,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(52 100% 50% / 0.3);
+    box-shadow: 0 0 20px hsl(64 100% 50% / 0.3);
   }
   50% {
-    box-shadow: 0 0 40px hsl(52 100% 50% / 0.6);
+    box-shadow: 0 0 40px hsl(64 100% 50% / 0.6);
   }
 }
 
@@ -136,7 +136,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    hsl(52 100% 50% / 0.1) 50%,
+    hsl(64 100% 50% / 0.1) 50%,
     transparent 100%
   );
   background-size: 200% 100%;

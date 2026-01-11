@@ -25,13 +25,33 @@ function ParticleField() {
   }, []);
 
   const material = useMemo(() => {
+    // Create circular particle texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d')!;
+    
+    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gradient.addColorStop(0, 'rgba(245, 255, 0, 1)');
+    gradient.addColorStop(0.5, 'rgba(245, 255, 0, 0.5)');
+    gradient.addColorStop(1, 'rgba(245, 255, 0, 0)');
+    
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(32, 32, 32, 0, Math.PI * 2);
+    ctx.fill();
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    
     return new THREE.PointsMaterial({
-      color: '#FFE500',
-      size: 0.05,
+      color: '#f5ff00',
+      size: 0.15,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.8,
       sizeAttenuation: true,
       depthWrite: false,
+      map: texture,
+      blending: THREE.AdditiveBlending,
     });
   }, []);
 
@@ -84,9 +104,9 @@ function Scene() {
     <>
       <ambientLight intensity={0.5} />
       <ParticleField />
-      <FloatingOrb position={[6, 3, -8]} size={1.5} color="#FFE500" speed={0.3} />
-      <FloatingOrb position={[-5, -2, -7]} size={1.2} color="#FFD700" speed={0.4} />
-      <FloatingOrb position={[3, -4, -9]} size={1.8} color="#FFEB3B" speed={0.25} />
+      <FloatingOrb position={[6, 3, -8]} size={1.5} color="#f5ff00" speed={0.3} />
+      <FloatingOrb position={[-5, -2, -7]} size={1.2} color="#f5ff00" speed={0.4} />
+      <FloatingOrb position={[3, -4, -9]} size={1.8} color="#f5ff00" speed={0.25} />
     </>
   );
 }
