@@ -25,11 +25,6 @@ const IPhoneMockup = ({ children }: IPhoneMockupProps) => {
         
         {/* Screen */}
         <div className="iphone-screen w-full h-full">
-          {/* Dynamic Island / Notch */}
-          <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[100px] h-[30px] bg-black rounded-full z-20 flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-zinc-800 mr-4" />
-          </div>
-          
           {/* Screen content */}
           <div className="w-full h-full overflow-hidden">
             {children}
