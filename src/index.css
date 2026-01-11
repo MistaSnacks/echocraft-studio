@@ -176,15 +176,15 @@
 .glass {
   background: linear-gradient(
     135deg,
-    hsl(220 20% 15% / 0.4) 0%,
-    hsl(220 20% 10% / 0.2) 100%
+    hsl(220 20% 15% / 0.15) 0%,
+    hsl(220 20% 10% / 0.08) 100%
   );
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid hsl(var(--echo-yellow) / 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid hsl(var(--echo-yellow) / 0.12);
   box-shadow: 
-    0 8px 32px hsl(0 0% 0% / 0.3),
-    inset 0 1px 0 hsl(255 255% 255% / 0.05);
+    0 8px 32px hsl(0 0% 0% / 0.15),
+    inset 0 1px 0 hsl(255 255% 255% / 0.03);
 }
 
 /* Radial gradient utility */
