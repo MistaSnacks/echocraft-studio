@@ -178,3 +178,8 @@
   backdrop-filter: blur(20px);
   border: 1px solid hsl(220 15% 25% / 0.5);
 }
+
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle at center, var(--tw-gradient-from), var(--tw-gradient-to));
+}
