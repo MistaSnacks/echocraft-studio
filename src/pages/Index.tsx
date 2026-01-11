@@ -17,7 +17,7 @@ const Index = () => {
         <section className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 sm:px-6 lg:px-12 py-12 lg:py-0">
           
           {/* Left side - Content */}
-          <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl">
+          <div className="flex-1 flex flex-col items-center text-center max-w-xl">
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -69,7 +69,7 @@ const Index = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.25 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-3 mb-10"
+              className="flex flex-wrap justify-center gap-3 mb-10"
             >
               <FeatureBadge icon={MapPin} label="Location-based" delay={0.3} />
               <FeatureBadge icon={MessageCircle} label="Real-time Chats" delay={0.4} />
