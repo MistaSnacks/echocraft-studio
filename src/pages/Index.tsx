@@ -83,7 +83,7 @@ const Index = () => {
           </div>
 
           {/* Right side - iPhone Mockup */}
-          <div className="flex-shrink-0 hidden md:block self-start mt-24">
+          <div className="flex-shrink-0 hidden md:block self-start mt-36">
             <IPhoneMockup>
               <AppPreview />
             </IPhoneMockup>
