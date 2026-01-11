@@ -104,9 +104,6 @@ function Scene() {
     <>
       <ambientLight intensity={0.5} />
       <ParticleField />
-      <FloatingOrb position={[6, 3, -8]} size={1.5} color="#f5ff00" speed={0.3} />
-      <FloatingOrb position={[-5, -2, -7]} size={1.2} color="#f5ff00" speed={0.4} />
-      <FloatingOrb position={[3, -4, -9]} size={1.8} color="#f5ff00" speed={0.25} />
     </>
   );
 }
