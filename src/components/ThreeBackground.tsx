@@ -2,6 +2,33 @@ import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+// Custom hook to get stable viewport height (prevents mobile address bar resize issues)
+function useStableViewportHeight() {
+  const [height, setHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Capture initial height before any scroll/address bar changes
+    const initialHeight = window.innerHeight;
+    setHeight(initialHeight);
+
+    // Only update on significant resize (orientation change), not address bar
+    const handleResize = () => {
+      const widthChanged = Math.abs(window.innerWidth - window.screen.width) < 50;
+      const heightDiff = Math.abs(window.innerHeight - initialHeight);
+      
+      // Only update if it's a significant change (orientation) not address bar (~100px)
+      if (heightDiff > 150 || widthChanged) {
+        setHeight(window.innerHeight);
+      }
+    };
+
+    window.addEventListener("orientationchange", handleResize);
+    return () => window.removeEventListener("orientationchange", handleResize);
+  }, []);
+
+  return height;
+}
+
 function ParticleField() {
   const pointsRef = useRef<THREE.Points>(null);
   const particlesCount = 600;
@@ -110,23 +137,42 @@ function Scene() {
 
 const ThreeBackground = () => {
   const [mounted, setMounted] = useState(false);
+  const stableHeight = useStableViewportHeight();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || !stableHeight) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+    <div 
+      className="fixed top-0 left-0 right-0 pointer-events-none touch-none"
+      style={{ 
+        zIndex: 0,
+        height: stableHeight,
+        // Prevent any scroll-related resize behavior
+        willChange: "transform",
+        transform: "translateZ(0)",
+      }}
+    >
       <Canvas
         camera={{ position: [0, 0, 8], fov: 60 }}
         gl={{ 
           alpha: true, 
           antialias: true,
-          powerPreference: "high-performance"
+          powerPreference: "high-performance",
+          preserveDrawingBuffer: true,
         }}
         dpr={[1, 2]}
+        resize={{ scroll: false, debounce: { scroll: 0, resize: 300 } }}
+        style={{ 
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
       >
         <Scene />
       </Canvas>

@@ -61,11 +61,23 @@
 
   html {
     scroll-behavior: smooth;
+    /* Prevent overscroll bounce on mobile that can cause background issues */
+    overscroll-behavior: none;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
+    /* Prevent pull-to-refresh and overscroll effects */
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Fix for mobile viewport height issues with address bar */
+  @supports (height: 100dvh) {
+    .min-h-screen {
+      min-height: 100dvh;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {

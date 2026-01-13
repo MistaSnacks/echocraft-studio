@@ -9,7 +9,7 @@ import FeatureBadge from "@/components/FeatureBadge";
 
 const Index = () => {
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen relative overflow-x-hidden overflow-y-auto">
       <ThreeBackground />
       
       <main className="relative z-10 min-h-screen flex flex-col">
