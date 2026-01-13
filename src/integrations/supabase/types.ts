@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      waitlist: {
+        Row: {
+          consent_timestamp: string | null
+          created_at: string
+          id: string
+          metadata: Json | null
+          phone: string
+          sms_consent: boolean
+          source: string | null
+        }
+        Insert: {
+          consent_timestamp?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          phone: string
+          sms_consent?: boolean
+          source?: string | null
+        }
+        Update: {
+          consent_timestamp?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          phone?: string
+          sms_consent?: boolean
+          source?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

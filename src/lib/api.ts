@@ -1,11 +1,10 @@
 /**
  * API Service Layer
  * 
- * Handles all API calls to the backend. Configure the endpoints
- * in src/lib/config.ts or via environment variables.
+ * Handles all API calls to the backend using Lovable Cloud.
  */
 
-import { config } from "./config";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface WaitlistSubmission {
   phone: string;
@@ -23,56 +22,35 @@ export interface WaitlistResponse {
 
 /**
  * Submit a phone number to the waitlist
- * 
- * @example
- * // With Firebase/Supabase/Custom Backend:
- * const result = await submitToWaitlist({
- *   phone: "+15551234567",
- *   smsConsent: true,
- *   consentTimestamp: new Date().toISOString(),
- * });
  */
 export async function submitToWaitlist(
   data: WaitlistSubmission
 ): Promise<WaitlistResponse> {
-  // Check if backend submission is enabled
-  if (!config.features.enableWaitlistSubmission) {
-    // Demo mode - simulate success
-    console.log("[Waitlist] Demo mode - submission data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return {
-      success: true,
-      message: "Demo mode: Waitlist submission simulated",
-    };
-  }
-
-  const url = `${config.api.baseUrl}${config.api.waitlistEndpoint}`;
-
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const { error } = await supabase.from("waitlist").insert([
+      {
         phone: data.phone,
         sms_consent: data.smsConsent,
         consent_timestamp: data.consentTimestamp,
         source: data.source || "landing_page",
-        metadata: data.metadata || {},
-        created_at: new Date().toISOString(),
-      }),
-    });
+        metadata: (data.metadata || {}) as Record<string, string | number | boolean | null>,
+      },
+    ]);
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `HTTP ${response.status}`);
+    if (error) {
+      // Handle duplicate phone number
+      if (error.code === "23505") {
+        return {
+          success: false,
+          error: "This phone number is already on the waitlist!",
+        };
+      }
+      throw error;
     }
 
-    const result = await response.json();
     return {
       success: true,
-      message: result.message || "Successfully joined the waitlist!",
+      message: "Successfully joined the waitlist!",
     };
   } catch (error) {
     console.error("[Waitlist] Submission error:", error);
