@@ -14,7 +14,7 @@ const Index = () => {
       
       <main className="relative z-10 min-h-screen flex flex-col">
         {/* Hero Section */}
-        <section className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 sm:px-6 lg:px-12 py-12 lg:py-0">
+        <section className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 sm:px-6 lg:px-12 py-12">
           
           {/* Left side - Content */}
           <div className="flex-1 flex flex-col items-center text-center max-w-xl">
