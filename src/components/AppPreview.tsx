@@ -21,12 +21,35 @@ const swipeVariants = {
   }),
 };
 
+// Preload all images and return a promise that resolves when all are cached
+const preloadImages = (imageSources: string[]): Promise<void[]> => {
+  return Promise.all(
+    imageSources.map(
+      (src) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve(); // Resolve even on error to not block
+          img.src = src;
+        })
+    )
+  );
+};
+
 const AppPreview = () => {
   const [[currentIndex, direction], setCurrentIndex] = useState([0, 1]);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Preload images on mount
+  useEffect(() => {
+    preloadImages(images.map((img) => img.src)).then(() => {
+      setImagesLoaded(true);
+    });
+  }, []);
 
   const paginate = useCallback((newDirection: number) => {
     setCurrentIndex(([prevIndex]) => {
@@ -57,7 +80,8 @@ const AppPreview = () => {
   };
 
   useEffect(() => {
-    if (isPaused) {
+    // Don't start autoplay until all images are cached
+    if (isPaused || !imagesLoaded) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
@@ -69,7 +93,7 @@ const AppPreview = () => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPaused, paginate]);
+  }, [isPaused, paginate, imagesLoaded]);
 
   useEffect(() => {
     return () => {
